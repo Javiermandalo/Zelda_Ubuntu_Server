@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crónicas de Hyrule | Ocarina of Time</title>
+  <style>
+    :root {
+      --bg-hyrule: #0b1612;
+      --bg-panel: #13241e;
+      --bg-card: #193028;
+      --gold-triforce: #e5b842;
+      --gold-light: #fbe18d;
+      --emerald-kokiri: #2ecc71;
+      --ruby-goron: #e74c3c;
+      --sapphire-zora: #3498db;
+      --text-main: #eef5f0;
+      --text-muted: #a6bfb3;
+      --border-gold: rgba(229, 184, 66, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-hyrule);
+      background-image: 
+        radial-gradient(circle at 20% 20%, rgba(46, 204, 113, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(229, 184, 66, 0.08) 0%, transparent 40%);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ENCABEZADO */
+    header {
+      background: linear-gradient(180deg, #070e0b 0%, var(--bg-panel) 100%);
+      border-bottom: 2px solid var(--gold-triforce);
+      padding: 2.2rem 1rem 1.5rem;
+      text-align: center;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+    }
+
+    .triforce-emblem {
+      display: inline-block;
+      margin-bottom: 0.5rem;
+      filter: drop-shadow(0 0 10px rgba(229, 184, 66, 0.6));
+    }
+
+    header h1 {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 2.3rem;
+      color: var(--gold-triforce);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 1rem;
+      margin-top: 0.4rem;
+    }
+
+    /* MENÚ DINÁMICO DE OPCIONES (CSS PURO CON HOVER Y SUBMENÚ DESPLEGABLE) */
+    nav {
+      background-color: #0e1c17;
+      border-bottom: 1px solid var(--border-gold);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    .nav-menu {
+      list-style: none;
+      max-width: 1050px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-item {
+      position: relative;
+    }
+
+    .nav-link {
+      display: block;
+      padding: 1rem 1.5rem;
+      color: var(--text-main);
+      text-decoration: none;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+      border-bottom: 3px solid transparent;
+    }
+
+    .nav-link:hover,
+    .nav-item:hover > .nav-link {
+      color: var(--gold-light);
+      background-color: rgba(229, 184, 66, 0.1);
+      border-bottom-color: var(--gold-triforce);
+    }
+
+    /* Submenú dinámico */
+    .submenu {
+      list-style: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      min-width: 230px;
+      background-color: var(--bg-panel);
+      border: 1px solid var(--gold-triforce);
+      border-radius: 0 0 8px 8px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: all 0.25s ease;
+    }
+
+    .nav-item:hover .submenu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .submenu li a {
+      display: block;
+      padding: 0.8rem 1.2rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.92rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      transition: background 0.2s, color 0.2s, padding-left 0.2s;
+    }
+
+    .submenu li:last-child a {
+      border-bottom: none;
+    }
+
+    .submenu li a:hover {
+      background-color: rgba(46, 204, 113, 0.15);
+      color: var(--gold-light);
+      padding-left: 1.5rem;
+    }
+
+    /* CONTENEDOR PRINCIPAL */
+    main {
+      max-width: 1050px;
+      width: 100%;
+      margin: 2rem auto;
+      padding: 0 1.2rem;
+      flex: 1;
+    }
+
+    section {
+      background-color: var(--bg-panel);
+      border: 1px solid var(--border-gold);
+      border-radius: 10px;
+      padding: 2rem;
+      margin-bottom: 2.2rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+      scroll-margin-top: 75px;
+    }
+
+    section h2 {
+      font-family: Georgia, 'Times New Roman', serif;
+      color: var(--gold-triforce);
+      font-size: 1.7rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border-gold);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    /* SECCIÓN: INFORMACIÓN BÁSICA */
+    .intro-text {
+      color: var(--text-main);
+      margin-bottom: 1.5rem;
+      font-size: 1.05rem;
+    }
+
+    .stones-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.2rem;
+      margin-top: 1.2rem;
+    }
+
+    .stone-card {
+      background-color: var(--bg-card);
+      border-radius: 8px;
+      padding: 1.3rem;
+      border-left: 4px solid var(--gold-triforce);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .stone-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+    }
+
+    .stone-card.kokiri { border-left-color: var(--emerald-kokiri); }
+    .stone-card.goron { border-left-color: var(--ruby-goron); }
+    .stone-card.zora { border-left-color: var(--sapphire-zora); }
+
+    .stone-card h3 {
+      color: var(--gold-light);
+      margin-bottom: 0.5rem;
+      font-size: 1.15rem;
+    }
+
+    .stone-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* SECCIÓN: PROBLEMAS Y SOLUCIONES (ACORDEÓN DINÁMICO EN CSS PURO) */
+    .faq-intro {
+      color: var(--text-muted);
+      margin-bottom: 1.2rem;
+    }
+
+    details {
+      background-color: var(--bg-card);
+      border: 1px solid rgba(229, 184, 66, 0.25);
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+      transition: border-color 0.3s ease;
+    }
+
+    details[open] {
+      border-color: var(--gold-triforce);
+    }
+
+    summary {
+      padding: 1.1rem 1.3rem;
+      font-weight: 600;
+      color: var(--gold-light);
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+      background-color: rgba(0, 0, 0, 0.15);
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::after {
+      content: "▼";
+      font-size: 0.85rem;
+      color: var(--gold-triforce);
+      transition: transform 0.3s ease;
+    }
+
+    details[open] summary::after {
+      transform: rotate(180deg);
+    }
+
+    .solution-body {
+      padding: 1.2rem 1.3rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+      font-size: 0.96rem;
+    }
+
+    .badge-problem {
+      display: inline-block;
+      background-color: rgba(231, 76, 60, 0.2);
+      color: #ff8a7d;
+      border: 1px solid #e74c3c;
+      padding: 0.15rem 0.55rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      margin-right: 0.5rem;
+      text-transform: uppercase;
+    }
+
+    .badge-solution {
+      display: inline-block;
+      background-color: rgba(46, 204, 113, 0.2);
+      color: #6ef7a7;
+      border: 1px solid #2ecc71;
+      padding: 0.15rem 0.55rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      margin-right: 0.5rem;
+      text-transform: uppercase;
+    }
+
+    .solution-body p + p {
+      margin-top: 0.8rem;
+    }
+
+    /* SECCIÓN: MELODÍAS DE LA OCARINA */
+    .songs-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    .songs-table th,
+    .songs-table td {
+      padding: 0.9rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .songs-table th {
+      background-color: rgba(229, 184, 66, 0.12);
+      color: var(--gold-triforce);
+      font-weight: 600;
+    }
+
+    .songs-table tr:hover {
+      background-color: rgba(255, 255, 255, 0.03);
+    }
+
+    /* FOOTER DE CONTACTO */
+    footer {
+      background-color: #070e0b;
+      border-top: 2px solid var(--gold-triforce);
+      padding: 2rem 1.2rem;
+      margin-top: auto;
+      color: var(--text-muted);
+    }
+
+    .footer-container {
+      max-width: 1050px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .footer-brand h3 {
+      color: var(--gold-triforce);
+      font-family: Georgia, 'Times New Roman', serif;
+      margin-bottom: 0.4rem;
+    }
+
+    .footer-contact ul {
+      list-style: none;
+    }
+
+    .footer-contact li {
+      margin-bottom: 0.4rem;
+      font-size: 0.95rem;
+    }
+
+    .footer-contact strong {
+      color: var(--text-main);
+    }
+
+    .footer-bottom {
+      max-width: 1050px;
+      margin: 1.5rem auto 0;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 650px) {
+      header h1 { font-size: 1.7rem; }
+      .nav-menu { flex-direction: column; text-align: center; }
+      .submenu { position: static; opacity: 1; visibility: visible; transform: none; display: none; }
+      .nav-item:hover .submenu { display: block; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ENCABEZADO PRINCIPAL -->
+  <header id="inicio">
+    <div class="triforce-emblem" aria-hidden="true">
+      <svg width="56" height="48" viewBox="0 0 100 86">
+        <polygon points="50,0 75,43 25,43" fill="#e5b842" />
+        <polygon points="25,43 50,86 0,86" fill="#e5b842" />
+        <polygon points="75,43 100,86 50,86" fill="#e5b842" />
+      </svg>
+    </div>
+    <h1>The Legend of Zelda: Ocarina of Time</h1>
+    <p>Archivo del Héroe del Tiempo — Guía de Hyrule, Problemas y Soluciones</p>
+  </header>
+
+  <!-- MENÚ DINÁMICO DE OPCIONES -->
+  <nav aria-label="Menú principal">
+    <ul class="nav-menu">
+      <li class="nav-item">
+        <a href="#inicio" class="nav-link">Inicio</a>
+      </li>
+      <li class="nav-item">
+        <a href="#informacion-basica" class="nav-link">Información Básica ▾</a>
+        <ul class="submenu">
+          <li><a href="#informacion-basica">Sinopsis de Hyrule</a></li>
+          <li><a href="#piedras-espirituales">Las 3 Piedras Espirituales</a></li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a href="#problemas-soluciones" class="nav-link">Problemas y Soluciones ▾</a>
+        <ul class="submenu">
+          <li><a href="#templo-agua">El Templo del Agua</a></li>
+          <li><a href="#bosque-perdido">El Bosque Perdido</a></li>
+          <li><a href="#lord-jabu">Interior de Lord Jabu-Jabu</a></li>
+          <li><a href="#epona">Conseguir a Epona</a></li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a href="#melodias" class="nav-link">Melodías de Ocarina</a>
+      </li>
+      <li class="nav-item">
+        <a href="#contacto" class="nav-link">Contacto</a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main>
+
+    <!-- SECCIÓN 1: INFORMACIÓN BÁSICA -->
+    <section id="informacion-basica">
+      <h2>Información Básica del Reino de Hyrule</h2>
+      <p class="intro-text">
+        Lanzado originalmente en 1998, <strong>The Legend of Zelda: Ocarina of Time</strong> narra la travesía de <strong>Link</strong>, un joven criado entre los Kokiri en el bosque que descubre su destino como el <em>Héroe del Tiempo</em>. Con la ayuda del hada Navi y la Princesa Zelda, debe impedir que <strong>Ganondorf</strong>, el rey de los Gerudo, obtenga la sagrada Trifuerza y suma a Hyrule en la oscuridad.
+      </p>
+      <p class="intro-text">
+        La aventura se divide en dos épocas conectadas por la <strong>Espada Maestra</strong> en el Templo del Tiempo: la infancia de Link (donde reúne las tres Piedras Espirituales) y siete años en el futuro (donde debe despertar a los Seis Sabios).
+      </p>
+
+      <div id="piedras-espirituales" class="stones-grid">
+        <article class="stone-card kokiri">
+          <h3>Esmeralda Kokiri</h3>
+          <p><strong>Ubicación:</strong> Interior del Gran Árbol Deku.<br><strong>Guardianes:</strong> Los niños del bosque Kokiri. Simboliza el valor y la naturaleza.</p>
+        </article>
+        <article class="stone-card goron">
+          <h3>Rubí Goron</h3>
+          <p><strong>Ubicación:</strong> Cueva de los Dodongos.<br><strong>Guardianes:</strong> La tribu Goron en la Montaña de la Muerte. Simboliza el poder y el fuego.</p>
+        </article>
+        <article class="stone-card zora">
+          <h3>Zafiro Zora</h3>
+          <p><strong>Ubicación:</strong> Barriga de Lord Jabu-Jabu.<br><strong>Guardianes:</strong> La familia real Zora. Entregado por la Princesa Ruto como símbolo de sabiduría.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 2: PROBLEMAS Y SOLUCIONES -->
+    <section id="problemas-soluciones">
+      <h2>Problemas Comunes y Soluciones en la Aventura</h2>
+      <p class="faq-intro">Haz clic sobre cada desafío clásico de Hyrule para desplegar su solución estratégica:</p>
+
+      <details id="templo-agua" open>
+        <summary>1. Quedarse atrapado sin llaves en el Templo del Agua</summary>
+        <div class="solution-body">
+          <p><span class="badge-problem">Problema</span> Muchos jugadores creen haber bloqueado su partida porque les falta una llave pequeña tras subir el nivel del agua al máximo.</p>
+          <p><span class="badge-solution">Solución</span> Pon el nivel del agua a la <strong>altura media</strong> entrando a la torre central. Al subir el agua, el bloque flotante del suelo se elevará y revelará un pasadizo oculto debajo de él con un cofre que contiene la llave faltante.</p>
+        </div>
+      </details>
+
+      <details id="bosque-perdido">
+        <summary>2. Perderse infinitamente en el Bosque Perdido</summary>
+        <div class="solution-body">
+          <p><span class="badge-problem">Problema</span> Al cruzar cualquier tronco equivocado en el Bosque Perdido, el juego te devuelve automáticamente a la entrada del Bosque Kokiri.</p>
+          <p><span class="badge-solution">Solución</span> Acércate a la entrada de cada tronco sin cruzarlo y escucha atentamente la música de fondo (la melodía de Saria). El camino correcto hacia la Pradera Sagrada siempre es aquel donde la música se escucha <strong>más fuerte y clara</strong>.</p>
+        </div>
+      </details>
+
+      <details id="lord-jabu">
+        <summary>3. No poder entrar a la boca de Lord Jabu-Jabu</summary>
+        <div class="solution-body">
+          <p><span class="badge-problem">Problema</span> La deidad protectora de los Zora mantiene su boca cerrada y no permite el acceso al tercer calabozo.</p>
+          <p><span class="badge-solution">Solución</span> Compra o atrapa un <strong>Pez</strong> en una botella vacía (puedes recogerlos en las aguas poco profundas de los Dominios de los Zora) y suéltalo justo frente a Lord Jabu-Jabu para que te trague al intentar comerlo.</p>
+        </div>
+      </details>
+
+      <details id="epona">
+        <summary>4. Rescatar a Epona del Rancho Lon Lon siendo adulto</summary>
+        <div class="solution-body">
+          <p><span class="badge-problem">Problema</span> Ingo ha tomado el control del rancho y tras ganarle dos carreras, cierra las puertas principales dejándote encerrado con la yegua.</p>
+          <p><span class="badge-solution">Solución</span> Toma impulso con Epona usando zanahorias y salta directamente por encima de la <strong>valla exterior</strong> del rancho (o sobre el muro de piedra cerca de la salida) para escapar hacia la Pradera de Hyrule.</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- SECCIÓN 3: TABLA DE MELODÍAS -->
+    <section id="melodias">
+      <h2>Melodías Esenciales de la Ocarina</h2>
+      <table class="songs-table">
+        <thead>
+          <tr>
+            <th>Melodía</th>
+            <th>Notas (N64 / 3DS)</th>
+            <th>Efecto Principal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Nana de Zelda</strong></td>
+            <td>◀ ▲ ▶ ◀ ▲ ▶</td>
+            <td>Abre puertas reales, invoca hadas y demuestra el vínculo con la familia real.</td>
+          </tr>
+          <tr>
+            <td><strong>Canción de Epona</strong></td>
+            <td>▲ ◀ ▶ ▲ ◀ ▶</td>
+            <td>Llama a tu yegua Epona en cualquier lugar abierto de Hyrule y calma a las vacas.</td>
+          </tr>
+          <tr>
+            <td><strong>Canción del Sol</strong></td>
+            <td>▶ ▼ ▲ ▶ ▼ ▲</td>
+            <td>Cambia instantáneamente del día a la noche (o viceversa) y paraliza a los ReDeads.</td>
+          </tr>
+          <tr>
+            <td><strong>Canción de las Tormentas</strong></td>
+            <td>A ▼ ▲ A ▼ ▲</td>
+            <td>Invoca lluvia y relámpagos; drena el pozo de Kakariko en el pasado.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+
+  <!-- FOOTER CON INFORMACIÓN DE CONTACTO -->
+  <footer id="contacto">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <h3>Crónicas de Hyrule</h3>
+        <p>Proyecto web desarrollado en HTML5 y CSS3 puro para implementación en servidor IIS.</p>
+      </div>
+      <div class="footer-contact">
+        <ul>
+          <li><strong>Autor:</strong> Guillermo Javier Chávez Flores</li>
+          <li><strong>Carrera:</strong> Ingeniería en Desarrollo de Software — UNIVO</li>
+          <li><strong>Correo institucional:</strong> u20260736@univo.edu.sv</li>
+          <li><strong>Grupo:</strong> Grupo B — Administración de Servidores</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 Guillermo Chávez | Todos los derechos reservados — Que la Trifuerza guíe tu camino.
+    </div>
+  </footer>
+
+</body>
+</html>
